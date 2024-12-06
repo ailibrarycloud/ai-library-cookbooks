@@ -1,0 +1,254 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "toc_visible": true,
+      "authorship_tag": "ABX9TyMc2rr6L1S8DDrf0+PXdqlF",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ailibrarycloud/ai-library-cookbooks/blob/main/My%20First%20AI%20Agent%20with%20AI%20Library\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# My first AI Agent\n",
+        "\n",
+        "This notebook will guide you to create your first AI Agent.\n",
+        "\n",
+        "##### 🔑 **Get your API Keys**\n",
+        "Login to the AI Library platform and fetch your keys from the API section of your profile page.\n",
+        "\n",
+        "\n",
+        "##### ♾ **Setting up Google Colab**\n",
+        "Click on the key icon on the left side bar, it will open the Secrets window. Paste your key next to X-Library-Key. Once you run the first block of code, you need to grant access to Google Colab to access the secrets. It's safe to do so.\n",
+        "\n",
+        "##### 🐍 **Setting up Jupyter Notebook**\n",
+        "If you are using a self hosted Jupyter Notebook, create a .env file and load key from your environment variable. If this feels like a stretch, replace the key with your own and ensure you do not share the notebook as is. If you need to share the notebook, remove the key before sharing.\n",
+        "\n",
+        "___\n",
+        "\n",
+        "##### 🥶 **New to this?**\n",
+        "\n",
+        "If you are new to Google Colab or Jupyter notebook or coding in general, this is the simplest way to run code snippets. You don't necessarily need to be an expert developer, just a curious mind.\n",
+        "\n",
+        "To run a snippet of code, click on the \"Play button\", often shown as a triangle with a circle around it.\n",
+        "\n",
+        "The code here is sequential, you need to run the code in the sequence shared. Response of a code snippet updates a variable that is used by the next code snippet.  \n",
+        "\n",
+        "##### 🙋 **Need Help?**\n",
+        "\n",
+        "You can write to hello@ailibrary.ai"
+      ],
+      "metadata": {
+        "id": "EL3MKWSBMluF"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Set up your environment\n",
+        "\n",
+        "> Update your X-Library-Key in 🔑 (left bar)\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "03DcHinHSX-P"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "id": "oolkFFXVnSry"
+      },
+      "outputs": [],
+      "source": [
+        "# This is for Google Colab. If you are another service, update accordingly.\n",
+        "# [DANGER!] You can also mention your key here but be very careful who you share\n",
+        "# the notebook with.\n",
+        "\n",
+        "from google.colab import userdata\n",
+        "key = userdata.get('X-Library-Key')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "import json\n",
+        "\n",
+        "# Domain for your hosted instance of AI Library, for using AI Library's hosted\n",
+        "# APIs, use the default below.\n",
+        "\n",
+        "domain = \"https://a23c-2409-40d7-5d-cdda-4167-2787-ce09-1a56.ngrok-free.app\"\n",
+        "headers = {\n",
+        "    'Content-Type': 'application/json',\n",
+        "    'X-Library-Key': key\n",
+        "}"
+      ],
+      "metadata": {
+        "id": "GIwbKZrVTBeb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Create Agent"
+      ],
+      "metadata": {
+        "id": "KhnhfnSBvHxw"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "namespace = \"burger-singh-franchise\"\n",
+        "knowledgeId = \"\""
+      ],
+      "metadata": {
+        "id": "DLLqfZz5nXgZ"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Add files"
+      ],
+      "metadata": {
+        "id": "X0motHohvKXS"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "url = f\"{domain}/v1/knowledgebase/{knowledgeId}\"\n",
+        "payload = json.dumps({\n",
+        "  \"type\": \"docs\",\n",
+        "  \"options\": {\n",
+        "    \"urls\": [\n",
+        "      \"https://assets.ctfassets.net/416ywc1laqmd/7oJfDqN7x2Bjj3bXiP3WHR/5866c87cd89c15987bbb7211bfc3f3cc/Update_11_17_23.pdf\"\n",
+        "    ]\n",
+        "  },\n",
+        "  \"meta\": {\n",
+        "    \"folder\": \"home\"\n",
+        "  }\n",
+        "})\n",
+        "response = requests.request(\"PUT\", url, headers=headers, data=payload)\n",
+        "print(json.dumps(json.loads(response.text), indent=4))"
+      ],
+      "metadata": {
+        "id": "6ttLhiNfnjGt"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Check Status"
+      ],
+      "metadata": {
+        "id": "BajIOWP7nxSj"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "url = f\"{domain}/v1/knowledgebase/{knowledgeId}/status\"\n",
+        "response = requests.request(\"GET\", url, headers=headers)\n",
+        "print(json.dumps(json.loads(response.text), indent=4))"
+      ],
+      "metadata": {
+        "id": "i6IOuiqwnw4i"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Chat"
+      ],
+      "metadata": {
+        "id": "fYOvhbtyn4xQ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "url = f\"{domain}/v1/agent/{namespace}/chat\"\n",
+        "payload = json.dumps({\n",
+        "  \"session_id\": \"niusjndckj23\",\n",
+        "  \"messages\": [\n",
+        "    { \"role\": \"assistant\", \"content\": \"how are you?\" },\n",
+        "    { \"role\": \"user\", \"content\": \"doing good. thank you.\" }\n",
+        "  ]\n",
+        "})\n",
+        "\n",
+        "response = requests.request(\"POST\", url, headers=headers, data=payload)\n",
+        "\n",
+        "print(response.text)\n"
+      ],
+      "metadata": {
+        "id": "CIH7XQ3Jn6rX"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Chat UI"
+      ],
+      "metadata": {
+        "id": "2lUHvKulvPhT"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(f\"[Chat with the Agent](https://www.ailibrary.ai/agent/{namespace}/chat)\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IS9PSswpwgCe",
+        "outputId": "907b1be4-b4bf-4472-aca2-5c03f9263e8a"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[Chat with the Agent](https://www.ailibrary.ai/agent/burger-singh-franchise/chat)\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
